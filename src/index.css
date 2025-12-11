@@ -1,8 +1,2 @@
 @import "tailwindcss";
 @plugin "daisyui";
-
-/* global styles you want to keep consistent */
-:root {
-  --brand-500: #0ea5a4;
-  --brand-700: #0f766e;
-}
