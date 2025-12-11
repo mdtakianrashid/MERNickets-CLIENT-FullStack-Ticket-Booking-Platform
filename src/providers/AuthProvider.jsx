@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
 
       if (currentUser?.email) {
         try {
-          // 1) Request JWT from backend
           const res = await axiosPublic.post("/auth/jwt", {
             email: currentUser.email,
           });
@@ -38,7 +37,6 @@ export const AuthProvider = ({ children }) => {
             localStorage.removeItem("mToken");
           }
 
-          // 2) Fetch role (optional)
           try {
             const userRes = await axiosPublic.get(
               `/users?email=${encodeURIComponent(currentUser.email)}`
@@ -65,71 +63,66 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-    // REGISTER - create Firebase user, update profile, then upsert to backend
-  const register = async ({ name, email, photoURL, password }) => {
-    // defensive trim
+  // REGISTER
+  const registerUser = async ({ name, email, photoURL, password }) => {
     const trimmedEmail = String(email || '').trim();
     const trimmedPassword = String(password || '');
     const trimmedName = String(name || '').trim();
     const trimmedPhoto = photoURL ? String(photoURL).trim() : '';
 
-    console.log("AuthProvider.register called with:", { trimmedName, trimmedEmail, trimmedPhoto });
+    console.log("AuthProvider.registerUser called with:", {
+      trimmedName,
+      trimmedEmail,
+      trimmedPhoto,
+    });
 
     try {
-      // Create Firebase user
-      const cred = await createUserWithEmailAndPassword(auth, trimmedEmail, trimmedPassword);
-      console.log("Firebase createUserWithEmailAndPassword success:", cred.user?.uid);
+      const cred = await createUserWithEmailAndPassword(
+        auth,
+        trimmedEmail,
+        trimmedPassword
+      );
 
-      // update displayName / photo in Firebase profile
       await updateProfile(cred.user, {
         displayName: trimmedName || undefined,
         photoURL: trimmedPhoto || undefined,
       });
-      console.log("Firebase updateProfile done for:", cred.user?.email);
 
-      // Upsert user in our Mongo backend
-      const payload = { name: trimmedName || 'No Name', email: trimmedEmail, photo: trimmedPhoto || "" };
-      console.log("Posting to backend /users with payload:", payload);
+      const payload = {
+        name: trimmedName || "No Name",
+        email: trimmedEmail,
+        photo: trimmedPhoto || "",
+      };
 
       const res = await axiosPublic.post("/users", payload);
-      console.log("Backend /users response:", res?.status, res?.data);
 
       if (!res || !res.data) {
-        console.warn("Backend /users returned unexpected response:", res);
         throw new Error("Failed to save user on backend");
       }
 
-      // update local user state
       setUser(cred.user);
-
       toast.success("Registration successful");
       return res.data;
     } catch (err) {
-      // Normalize firebase errors
       const firebaseCode = err?.code;
       const firebaseMessage = err?.message;
-      console.error("Register error:", { firebaseCode, firebaseMessage, err });
 
-      // Friendly UI error
       const userMessage =
-        err?.response?.data?.message // backend message
-        || (firebaseCode ? `${firebaseCode}: ${firebaseMessage}` : null)
-        || err?.message
-        || "Registration failed";
+        err?.response?.data?.message ||
+        (firebaseCode ? `${firebaseCode}: ${firebaseMessage}` : null) ||
+        err?.message ||
+        "Registration failed";
 
-      // Re-throw an Error instance with message so the form can display it
       const e = new Error(userMessage);
       e.original = err;
       throw e;
     }
   };
 
-
   // LOGIN
   const login = async (email, password) => {
     try {
-      const res = await signInWithEmailAndPassword(auth, email, password);
-      return res;
+      return await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       console.error("Login error:", err);
       throw err;
@@ -143,7 +136,6 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithPopup(auth, provider);
       const u = result.user;
 
-      // Upsert user in backend (important: wait for server success)
       const payload = {
         name: u.displayName || "No Name",
         email: u.email,
@@ -151,22 +143,16 @@ export const AuthProvider = ({ children }) => {
       };
 
       const res = await axiosPublic.post("/users", payload);
-      if (!res || !res.data) {
-        console.warn("Backend /users returned unexpected response:", res);
-        throw new Error("Failed to save Google user on backend");
-      }
+      if (!res || !res.data) throw new Error("Failed to save Google user");
 
-      // optionally set user immediately
       setUser(u);
-
       return res.data;
     } catch (err) {
-      console.error("Google login error:", err?.response || err);
+      console.error("Google login error:", err);
       throw err;
     }
   };
 
-  // LOGOUT
   const logout = async () => {
     try {
       await signOut(auth);
@@ -182,7 +168,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         user,
         loadingAuth,
-        register,
+        registerUser,   // FIXED NAME
         login,
         googleLogin,
         logout,

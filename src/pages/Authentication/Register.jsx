@@ -11,7 +11,7 @@ function validatePassword(pw) {
 }
 
 export default function Register() {
-  const { register } = useAuth();
+  const { registerUser } = useAuth();      // FIXED NAME
   const [name, setName] = useState('');
   const [photo, setPhoto] = useState('');
   const [email, setEmail] = useState('');
@@ -26,11 +26,10 @@ export default function Register() {
     }
     setSubmitting(true);
     try {
-      await register({ name, email, photoURL: photo, password });
+      await registerUser({ name, email, photoURL: photo, password });   // FIXED NAME
       toast.success('Registered');
       navigate('/');
     } catch (err) {
-      // Prefer server friendly message
       const msg = err?.response?.data?.message || err?.message || 'Register failed';
       toast.error(msg);
       console.error("Register form error:", err?.response || err);
