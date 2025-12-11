@@ -65,36 +65,65 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  // REGISTER - create Firebase user, update profile, then upsert to backend
+    // REGISTER - create Firebase user, update profile, then upsert to backend
   const register = async ({ name, email, photoURL, password }) => {
+    // defensive trim
+    const trimmedEmail = String(email || '').trim();
+    const trimmedPassword = String(password || '');
+    const trimmedName = String(name || '').trim();
+    const trimmedPhoto = photoURL ? String(photoURL).trim() : '';
+
+    console.log("AuthProvider.register called with:", { trimmedName, trimmedEmail, trimmedPhoto });
+
     try {
-      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // Create Firebase user
+      const cred = await createUserWithEmailAndPassword(auth, trimmedEmail, trimmedPassword);
+      console.log("Firebase createUserWithEmailAndPassword success:", cred.user?.uid);
 
       // update displayName / photo in Firebase profile
       await updateProfile(cred.user, {
-        displayName: name,
-        photoURL,
+        displayName: trimmedName || undefined,
+        photoURL: trimmedPhoto || undefined,
       });
+      console.log("Firebase updateProfile done for:", cred.user?.email);
 
       // Upsert user in our Mongo backend
-      const payload = { name, email, photo: photoURL || "" };
+      const payload = { name: trimmedName || 'No Name', email: trimmedEmail, photo: trimmedPhoto || "" };
+      console.log("Posting to backend /users with payload:", payload);
+
       const res = await axiosPublic.post("/users", payload);
+      console.log("Backend /users response:", res?.status, res?.data);
+
       if (!res || !res.data) {
         console.warn("Backend /users returned unexpected response:", res);
         throw new Error("Failed to save user on backend");
       }
 
-      // optionally set local state immediately (onAuthStateChanged will also set)
+      // update local user state
       setUser(cred.user);
 
       toast.success("Registration successful");
       return res.data;
     } catch (err) {
-      console.error("Register error:", err?.response || err);
-      // Re-throw so callers (UI) can show the error text
-      throw err;
+      // Normalize firebase errors
+      const firebaseCode = err?.code;
+      const firebaseMessage = err?.message;
+      console.error("Register error:", { firebaseCode, firebaseMessage, err });
+
+      // Friendly UI error
+      const userMessage =
+        err?.response?.data?.message // backend message
+        || (firebaseCode ? `${firebaseCode}: ${firebaseMessage}` : null)
+        || err?.message
+        || "Registration failed";
+
+      // Re-throw an Error instance with message so the form can display it
+      const e = new Error(userMessage);
+      e.original = err;
+      throw e;
     }
   };
+
 
   // LOGIN
   const login = async (email, password) => {

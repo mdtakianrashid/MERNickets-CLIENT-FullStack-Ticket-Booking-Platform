@@ -9,7 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import toast from "react-hot-toast";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 function CheckoutForm({ booking }) {
   const stripe = useStripe();
