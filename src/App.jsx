@@ -1,14 +1,4 @@
-import { useState } from 'react'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      
-    </>
-  )
-}
-
-export default App
+// src/App.jsx
+import React from "react";
+import RoutesApp from "./pages/router/Routes";
+export default function App(){ return <RoutesApp />; }
