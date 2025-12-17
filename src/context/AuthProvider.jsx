@@ -21,24 +21,25 @@ export default function AuthProvider({ children }) {
   const [dbUser, setDbUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  /* ================================
+     Auth State Observer
+  ================================ */
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (u) => {
       setUser(u);
 
       if (u?.email) {
         try {
-          // ✅ Register user (NO ROLE from frontend)
-          await axiosPublic.post("/auth/register", {
-            name: u.displayName || "",
+          // 🔐 Get JWT
+          const jwtRes = await axiosPublic.post("/auth/jwt", {
             email: u.email,
           });
-
-          // ✅ Get JWT
-          const jwtRes = await axiosPublic.post("/auth/jwt", { email: u.email });
           localStorage.setItem("mernickets_token", jwtRes.data.token);
 
-          // ✅ Get DB user (ROLE SOURCE OF TRUTH)
-          const { data } = await axiosPublic.get(`/auth/me?email=${u.email}`);
+          // 👤 Get DB user
+          const { data } = await axiosPublic.get(
+            `/auth/me?email=${u.email}`
+          );
           setDbUser(data);
         } catch (error) {
           console.error("AuthProvider error:", error);
@@ -55,17 +56,38 @@ export default function AuthProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
+  /* ================================
+     Register (EMAIL / PASSWORD)
+  ================================ */
   const register = async ({ name, email, password, photoURL }) => {
     setLoading(true);
-    const res = await createUserWithEmailAndPassword(auth, email, password);
+
+    // 1️⃣ Create Firebase user
+    const res = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+
+    // 2️⃣ Update Firebase profile
     await updateProfile(res.user, {
       displayName: name,
       photoURL: photoURL || "",
     });
+
+    // 3️⃣ Create user in MongoDB WITH NAME (CRITICAL FIX)
+    await axiosPublic.post("/auth/register", {
+      email,
+      name,
+    });
+
     setLoading(false);
     return res.user;
   };
 
+  /* ================================
+     Login
+  ================================ */
   const login = async ({ email, password }) => {
     setLoading(true);
     const res = await signInWithEmailAndPassword(auth, email, password);
@@ -73,13 +95,26 @@ export default function AuthProvider({ children }) {
     return res.user;
   };
 
+  /* ================================
+     Google Login
+  ================================ */
   const loginWithGoogle = async () => {
     setLoading(true);
     const res = await signInWithPopup(auth, provider);
+
+    // Ensure Google users exist in DB
+    await axiosPublic.post("/auth/register", {
+      email: res.user.email,
+      name: res.user.displayName,
+    });
+
     setLoading(false);
     return res.user;
   };
 
+  /* ================================
+     Logout
+  ================================ */
   const logout = async () => {
     setLoading(true);
     await signOut(auth);
