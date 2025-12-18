@@ -19,6 +19,7 @@ export default function AddTicket() {
     ticketQuantity: "",
     departure: "",
     image: "",
+    perks: ["", "", "", "", "", "", ""], // ✅ 7 perks
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function AddTicket() {
         const t = res.data;
         setForm({
           ...t,
+          perks: t.perks?.length ? t.perks : ["", "", "", "", "", "", ""],
           departure: t.departure?.slice(0, 16),
         });
       });
@@ -36,14 +38,26 @@ export default function AddTicket() {
   const handleChange = e =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
+  const handlePerkChange = (i, value) => {
+    const perks = [...form.perks];
+    perks[i] = value;
+    setForm({ ...form, perks });
+  };
+
   const handleSubmit = async e => {
     e.preventDefault();
     setLoading(true);
+
+    const payload = {
+      ...form,
+      perks: form.perks.filter(p => p.trim() !== ""),
+    };
+
     try {
       if (isEdit) {
-        await axiosSecure.patch(`/tickets/${id}`, form);
+        await axiosSecure.patch(`/tickets/${id}`, payload);
       } else {
-        await axiosSecure.post("/tickets", form);
+        await axiosSecure.post("/tickets", payload);
       }
       navigate("/dashboard/vendor/my-tickets");
     } finally {
@@ -64,10 +78,23 @@ export default function AddTicket() {
         <input name="from" required value={form.from} onChange={handleChange} className="input w-full" placeholder="From" />
         <input name="to" required value={form.to} onChange={handleChange} className="input w-full" placeholder="To" />
         <input name="transportType" required value={form.transportType} onChange={handleChange} className="input w-full" placeholder="Transport Type" />
-        <input type="number" name="price" required value={form.price} onChange={handleChange} className="input w-full" placeholder="Price" />
-        <input type="number" name="ticketQuantity" required value={form.ticketQuantity} onChange={handleChange} className="input w-full" placeholder="Ticket Quantity" />
+        <input type="number" name="price" required value={form.price} onChange={handleChange} className="input w-full" />
+        <input type="number" name="ticketQuantity" required value={form.ticketQuantity} onChange={handleChange} className="input w-full" />
         <input type="datetime-local" name="departure" required value={form.departure} onChange={handleChange} className="input w-full" />
         <input name="image" value={form.image} onChange={handleChange} className="input w-full" placeholder="Image URL" />
+
+        <div>
+          <p className="font-semibold">7 Perks</p>
+          {form.perks.map((perk, i) => (
+            <input
+              key={i}
+              value={perk}
+              onChange={e => handlePerkChange(i, e.target.value)}
+              className="input w-full mt-1"
+              placeholder={`Perk ${i + 1}`}
+            />
+          ))}
+        </div>
 
         <button className="btn btn-primary w-full">
           {isEdit ? "Update Ticket" : "Add Ticket"}

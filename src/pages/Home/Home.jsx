@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import axiosPublic from "../../utils/axiosPublic";
 import Spinner from "../../components/Spinner";
 import { Link, useNavigate } from "react-router-dom";
-import heroVidoe from "../../assets/Top 10 Most Beautiful Places On Earth _ Travel Video.mp4";
+// import heroVidoe from "../../assets/Top 10 Most Beautiful Places On Earth _ Travel Video.mp4";
 import { motion } from "framer-motion"; // Import Framer Motion
 import { MapPinIcon, CalendarDaysIcon, TicketIcon, ShieldCheckIcon, GlobeAltIcon, BoltIcon, StarIcon } from "@heroicons/react/24/outline";
 
@@ -69,7 +69,7 @@ export default function Home() {
       {/* 1. HERO SECTION */}
       <section className="relative h-[85vh] w-full overflow-hidden">
         <video
-          src={heroVidoe}
+          // src={heroVidoe}
           autoPlay
           loop
           muted
@@ -96,7 +96,7 @@ export default function Home() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-gray-200 text-lg md:text-xl max-w-2xl mb-8"
           >
-            Book Bus, Train, Launch, and Flight tickets instantly with TicketBari.
+            A Modern Online Ticket Booking Platform. Book Bus, Train, Launch, and Flight tickets instantly with MERNickets.
           </motion.p>
         </div>
       </section>
@@ -229,7 +229,7 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-200/20 dark:bg-cyan-900/20 rounded-full blur-3xl -z-10" />
           
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold dark:text-white mb-4">Why Choose TicketBari?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold dark:text-white mb-4">Why Choose MERNickets?</h2>
             <p className="text-gray-600 dark:text-gray-400">We make your journey comfortable and safe</p>
           </div>
 
