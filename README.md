@@ -109,7 +109,7 @@ Use these credentials to explore the different role-based features:
 Follow these steps to get a local copy up and running.
 
 ### 1. Clone the repository
-```
+
 git clone [https://github.com/mdtajrianrashid/MERNickets-CLIENT-FullStack-Ticket-Booking-Platform.git]
 cd [MERNickets-CLIENT-FullStack-Ticket-Booking-Platform]
 npm install 
@@ -126,4 +126,3 @@ VITE_stripe_publishable_key=YOUR_STRIPE_PK
 VITE_API_URL=http://localhost:5000
 
 npm run dev
-```
