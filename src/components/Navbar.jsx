@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, NavLink as RouterNavLink, useNavigate, useLocation } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useTheme } from "../context/ThemeContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -170,15 +170,31 @@ export default function Navbar() {
 
 function NavLink({ to, children }) {
   return (
-    <Link
+    <RouterNavLink
       to={to}
-      className="relative text-gray-600 dark:text-gray-300 font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors group py-2"
+      end={to === "/"}
+      className={({ isActive }) =>
+        `relative font-medium py-2 transition-colors
+        ${
+          isActive
+            ? "text-blue-600 dark:text-blue-400"
+            : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+        }`
+      }
     >
-      {children}
-      <span className="absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span>
-    </Link>
+      {({ isActive }) => (
+        <>
+          {children}
+          <span
+            className={`absolute inset-x-0 bottom-0 h-0.5 bg-blue-600 transition-transform duration-300 origin-left
+            ${isActive ? "scale-x-100" : "scale-x-0"}`}
+          />
+        </>
+      )}
+    </RouterNavLink>
   );
 }
+
 
 function MobileLink({ to, children }) {
   return (
