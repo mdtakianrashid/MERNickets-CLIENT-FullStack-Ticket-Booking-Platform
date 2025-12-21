@@ -21,14 +21,14 @@ export default function VendorDashboard() {
       icon: <UserCircleIcon className="w-5 h-5" /> 
     },
     { 
-      to: "add-ticket", 
-      label: "Add New Ticket", 
-      icon: <PlusCircleIcon className="w-5 h-5" /> 
-    },
-    { 
       to: "my-tickets", 
       label: "My Added Tickets", 
       icon: <TicketIcon className="w-5 h-5" /> 
+    },
+    { 
+      to: "add-ticket", 
+      label: "Add New Ticket", 
+      icon: <PlusCircleIcon className="w-5 h-5" /> 
     },
     { 
       to: "requests", 

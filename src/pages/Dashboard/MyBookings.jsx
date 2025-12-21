@@ -80,7 +80,7 @@ export default function MyBookings() {
             My Booked Tickets
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mt-2">
-            Manage your upcoming trips and payments[cite: 123].
+            Manage your upcoming trips and payments.
           </p>
         </div>
         <div className="bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full font-bold text-sm">

@@ -15,6 +15,12 @@ export default function UserDashboard() {
 
   const navItems = [
     { 
+      to: "profile", 
+      end: false, 
+      label: "My Profile", 
+      icon: <UserCircleIcon className="w-5 h-5" /> 
+    },
+    { 
       to: "/dashboard/user", 
       end: true, 
       label: "My Bookings", 
@@ -25,12 +31,6 @@ export default function UserDashboard() {
       end: false, 
       label: "Transactions", 
       icon: <CreditCardIcon className="w-5 h-5" /> 
-    },
-    { 
-      to: "profile", 
-      end: false, 
-      label: "My Profile", 
-      icon: <UserCircleIcon className="w-5 h-5" /> 
     },
   ];
 
