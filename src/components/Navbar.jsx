@@ -253,7 +253,6 @@ useEffect(() => {
   className="md:hidden bg-white dark:bg-gray-900 border-t dark:border-gray-800 overflow-hidden"
 >
       <div className="px-4 py-6 space-y-3">
-        {/* Theme toggle */}
         <button
           onClick={toggleTheme}
           className="w-full flex justify-between items-center px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-800"
@@ -302,7 +301,6 @@ useEffect(() => {
   );
 }
 
-/* Helpers */
 function NavLink({ to, children }) {
   return (
     <RouterNavLink

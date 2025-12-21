@@ -82,11 +82,11 @@ export default function Footer() {
           <motion.div variants={item}>
             <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Company</h4>
             <ul className="space-y-4">
-              <FooterLink to="#">About Us</FooterLink>
-              <FooterLink to="#">Careers</FooterLink>
-              <FooterLink to="#">Privacy Policy</FooterLink>
-              <FooterLink to="#">Terms & Conditions</FooterLink>
-              <FooterLink to="#">Help Center</FooterLink>
+              <FooterLink to="/about">About Us</FooterLink>
+              <FooterLink to="/careers">Careers</FooterLink>
+              <FooterLink to="/privacy-policy">Privacy Policy</FooterLink>
+              <FooterLink to="/terms">Terms & Conditions</FooterLink>
+              <FooterLink to="/help">Help Center</FooterLink>
             </ul>
           </motion.div>
 
@@ -126,9 +126,12 @@ export default function Footer() {
             © {new Date().getFullYear()} <span className="font-semibold text-blue-600 dark:text-blue-400">TicketBari</span>. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-gray-500 dark:text-gray-400">
-             <a href="#" className="hover:text-blue-500 transition-colors">Privacy</a>
-             <a href="#" className="hover:text-blue-500 transition-colors">Terms</a>
-             <a href="#" className="hover:text-blue-500 transition-colors">Cookies</a>
+             <a href="/privacy-policy" className="hover:text-blue-500 transition-colors">
+             Privacy</a>
+             <a href="/terms" className="hover:text-blue-500 transition-colors">
+             Terms</a>
+             <a href="/coming-soon" className="hover:text-blue-500 transition-colors">
+             Cookies</a>
           </div>
         </motion.div>
       </div>

@@ -8,6 +8,7 @@ import TicketDetails from "../pages/TicketDetails/TicketDetails";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import NotFound from "../pages/NotFound";
+import ComingSoon from "../pages/ComingSoon";
 
 import UserDashboard from "../pages/Dashboard/UserDashboard";
 import VendorDashboard from "../pages/Dashboard/VendorDashboard";
@@ -65,8 +66,14 @@ export default function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route path="tickets" element={<AllTickets />} />
+      <Route index element={<Home />} />
+      <Route path="tickets" element={<AllTickets />} />
+      <Route path="coming-soon" element={<ComingSoon />} />
+      <Route path="about" element={<ComingSoon />} />
+      <Route path="careers" element={<ComingSoon />} />
+      <Route path="privacy-policy" element={<ComingSoon />} />
+      <Route path="terms" element={<ComingSoon />} />
+      <Route path="help" element={<ComingSoon />} />
 
         <Route
           path="ticket/:id"
