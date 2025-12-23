@@ -294,7 +294,7 @@ function TicketCard({ ticket }) {
             <span className="text-xs text-gray-500 dark:text-gray-400 block">Price</span>
             <span className="text-xl font-bold text-blue-600 dark:text-blue-400">৳{ticket.price}</span>
           </div>
-          <Link to={`/ticket/৳{ticket._id}`}>
+          <Link to={`/ticket/${ticket._id}`}>
             <motion.button 
               whileTap={{ scale: 0.9 }}
               className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-4 py-2 rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity"
