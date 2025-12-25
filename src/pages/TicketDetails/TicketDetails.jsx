@@ -191,7 +191,7 @@ export default function TicketDetails() {
           <div className="mt-10 border-t border-gray-200 dark:border-gray-800 pt-8 flex items-center justify-between">
             <div>
                <p className="text-sm text-gray-400">Total Price</p>
-               <p className="text-4xl font-extrabold text-gray-900 dark:text-white">${ticket.price}</p>
+               <p className="text-4xl font-extrabold text-gray-900 dark:text-white">৳{ticket.price}</p>
             </div>
             
             <button

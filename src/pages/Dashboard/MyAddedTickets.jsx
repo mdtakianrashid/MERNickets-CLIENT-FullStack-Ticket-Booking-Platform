@@ -54,6 +54,14 @@ export default function MyAddedTickets() {
 
   if (loading) return <Spinner className="h-[60vh]" />;
 
+  function TakaSvg({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+      <text x="4" y="20" fontSize="20" fontFamily="Arial">৳</text>
+    </svg>
+  );
+}
+
   return (
     <div className="p-6 md:p-8">
       
@@ -149,7 +157,7 @@ export default function MyAddedTickets() {
                   <div className="flex items-center justify-between mb-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-xl">
                     <span className="text-gray-500 dark:text-gray-400 text-sm">Selling Price</span>
                     <span className="font-bold text-gray-900 dark:text-white flex items-center text-lg">
-                        <CurrencyDollarIcon className="w-5 h-5 text-purple-500 mr-1" />
+                        <TakaSvg className="w-5 h-5 text-purple-500 mr-1" />
                         {ticket.price}
                     </span>
                   </div>

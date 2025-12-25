@@ -110,67 +110,71 @@ export default function AllTickets() {
         </div>
 
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-5 mb-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                
-                <div className="relative group">
-                    <MapPinIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
-                    <input 
-                        value={queryFrom} 
-                        onChange={e => setQueryFrom(e.target.value)} 
-                        placeholder="From City" 
-                        className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-none focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                    />
-                </div>
-
-                <div className="relative group">
-                    <MapPinIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
-                    <input 
-                        value={queryTo} 
-                        onChange={e => setQueryTo(e.target.value)} 
-                        placeholder="To Destination" 
-                        className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-none focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white"
-                    />
-                </div>
-
-                <div className="relative group">
-                    <AdjustmentsHorizontalIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
-                    <select 
-                        value={transport} 
-                        onChange={e => setTransport(e.target.value)} 
-                        className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-none focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white cursor-pointer appearance-none"
-                    >
-                        <option value="">All Transport</option>
-                        <option value="bus">Bus</option>
-                        <option value="train">Train</option>
-                        <option value="launch">Launch</option>
-                        <option value="plane">Plane</option>
-                    </select>
-                </div>
-
-                <div className="relative group">
-
-                    <input 
-                        type="date"
-                        value={departureDate} 
-                        onChange={e => setDepartureDate(e.target.value)} 
-                        className="w-full pl-4 pr-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-none focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white dark:scheme-dark"
-                    />
-                </div>
-
-                <div className="relative group">
-                    <FunnelIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
-                    <select 
-                        value={sort} 
-                        onChange={e => setSort(e.target.value)} 
-                        className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl border-none focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white cursor-pointer appearance-none"
-                    >
-                        <option value="">Sort By</option>
-                        <option value="price_asc">Price: Low to High</option>
-                        <option value="price_desc">Price: High to Low</option>
-                    </select>
-                </div>
-            </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        
+        {/* FROM CITY INPUT */}
+        <div className="relative group">
+            <MapPinIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-500 dark:text-gray-400 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-500 transition-colors" />
+            <input 
+                value={queryFrom} 
+                onChange={e => setQueryFrom(e.target.value)} 
+                placeholder="From City" 
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 font-medium rounded-xl border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+            />
         </div>
+
+        {/* TO DESTINATION INPUT */}
+        <div className="relative group">
+            <MapPinIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-500 dark:text-gray-400 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-500 transition-colors" />
+            <input 
+                value={queryTo} 
+                onChange={e => setQueryTo(e.target.value)} 
+                placeholder="To Destination" 
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-black dark:text-white placeholder-gray-500 dark:placeholder-gray-400 font-medium rounded-xl border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+            />
+        </div>
+
+        {/* TRANSPORT SELECT */}
+        <div className="relative group">
+            <AdjustmentsHorizontalIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-500 dark:text-gray-400 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-500 transition-colors" />
+            <select 
+                value={transport} 
+                onChange={e => setTransport(e.target.value)} 
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-black dark:text-white font-medium rounded-xl border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all cursor-pointer appearance-none"
+            >
+                <option value="" className="text-gray-500">All Transport</option>
+                <option value="bus">Bus</option>
+                <option value="train">Train</option>
+                <option value="launch">Launch</option>
+                <option value="plane">Plane</option>
+            </select>
+        </div>
+
+        {/* DEPARTURE DATE INPUT */}
+        <div className="relative group">
+            <input 
+                type="date"
+                value={departureDate} 
+                onChange={e => setDepartureDate(e.target.value)} 
+                className="w-full pl-4 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-black dark:text-white font-medium rounded-xl border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all dark:scheme-dark"
+            />
+        </div>
+
+        {/* SORT SELECT */}
+        <div className="relative group">
+            <FunnelIcon className="w-5 h-5 absolute left-3 top-3.5 text-gray-500 dark:text-gray-400 group-focus-within:text-blue-600 dark:group-focus-within:text-blue-500 transition-colors" />
+            <select 
+                value={sort} 
+                onChange={e => setSort(e.target.value)} 
+                className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-800 text-black dark:text-white font-medium rounded-xl border border-gray-200 dark:border-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all cursor-pointer appearance-none"
+            >
+                <option value="" className="text-gray-500">Sort By</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+            </select>
+        </div>
+    </div>
+</div>
 
         {paginated.length > 0 ? (
             <motion.div 

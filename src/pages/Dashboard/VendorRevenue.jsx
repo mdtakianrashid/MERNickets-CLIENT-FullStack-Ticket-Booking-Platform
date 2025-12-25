@@ -76,7 +76,7 @@ export default function VendorRevenue() {
       >
         <StatCard 
           title="Total Revenue" 
-          value={`$${stats.revenue}`} 
+          value={`৳${stats.revenue}`} 
           icon={<BanknotesIcon className="w-8 h-8 text-white" />}
           gradient="from-purple-600 to-indigo-600"
           delay={0}

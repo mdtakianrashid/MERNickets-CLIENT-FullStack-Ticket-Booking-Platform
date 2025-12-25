@@ -13,10 +13,8 @@ export const ThemeProvider = ({ children }) => {
   });
 
 useEffect(() => {
-  const root = document.documentElement;
-
-  root.classList.toggle("dark", theme === "dark");
-  root.setAttribute("data-theme", theme);
+  const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
 
   localStorage.setItem("theme", theme);
 }, [theme]);

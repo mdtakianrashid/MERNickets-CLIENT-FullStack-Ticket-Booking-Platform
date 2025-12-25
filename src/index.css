@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark;
+}
+
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 :root {
   --font-heading: "Poppins", sans-serif;
   --font-body: "Inter", sans-serif;
